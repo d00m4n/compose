@@ -1,0 +1,28 @@
+version: "3" 
+# test
+services:
+  heimdall:
+
+    image: linuxserver/heimdall:latest
+    container_name: heimdall
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${CONFIG}/heimdall:/config
+    ports:
+      - 80
+   
+    networks:
+      - d00m4ns
+      
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`heimdall.${DOMAIN}`)"
+     
+    restart: unless-stopped
+    
+networks:
+  d00m4ns:
+    external: true
